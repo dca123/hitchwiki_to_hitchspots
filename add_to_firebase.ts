@@ -19,22 +19,24 @@ const bar1 = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
 const locations = jsonfile.readFileSync("exports/locations.json").data;
 
 async function main() {
-  bar1.start(10, 0);
-  for (let index = 0; index < 10; index++) {
+  const start = 0;
+  const end = 10000;
+  bar1.start(end, start);
+  for (let index = start; index < end; index++) {
     const location: Location = locations[index];
     // console.log(reviews);
-    // const locationSnapshot = await db
-    //   .collection("locations_test")
-    //   .where("legacyId", "==", location.legacyId)
-    //   .get();
+    const locationSnapshot = await db
+      .collection("locations")
+      .where("legacyId", "==", location.legacyId)
+      .get();
 
-    // if (locationSnapshot.empty) {
-    //   //   console.log("SKIP !");
-    //   bar1.increment();
-    //   continue;
-    // }
+    if (!locationSnapshot.empty) {
+      // console.log("SKIP !");
+      bar1.increment();
+      continue;
+    }
 
-    const res = await db.collection("locations_test").add({
+    const res = await db.collection("locations").add({
       ...location,
       position: {
         geohash: location.position.geohash,
@@ -51,7 +53,7 @@ async function main() {
     );
     for (let i = 0; i < reviews.length; i++) {
       const review = reviews[i];
-      await db.collection("reviews_test").add(review);
+      await db.collection("reviews").add(review);
     }
 
     bar1.increment();

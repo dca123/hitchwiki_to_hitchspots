@@ -46,10 +46,13 @@ async function main() {
         ),
       },
     });
+    const rating = parseFloat(
+      (location.rating / location.reviewCount).toFixed(1)
+    );
     const reviews: Review[] = locationToReviews(
       location.legacyId,
       res.id,
-      location.rating / location.reviewCount
+      rating
     );
     for (let i = 0; i < reviews.length; i++) {
       const review = reviews[i];

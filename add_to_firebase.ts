@@ -23,29 +23,36 @@ async function main() {
   for (let index = 0; index < 10; index++) {
     const location: Location = locations[index];
     // console.log(reviews);
-    const locationSnapshot = await db
-      .collection("locations_test")
-      .where("legacyID", "==", location.legacyId)
-      .get();
+    // const locationSnapshot = await db
+    //   .collection("locations_test")
+    //   .where("legacyId", "==", location.legacyId)
+    //   .get();
 
-    if (locationSnapshot.empty) {
-      //   console.log("SKIP !");
-      bar1.increment();
-      continue;
-    }
+    // if (locationSnapshot.empty) {
+    //   //   console.log("SKIP !");
+    //   bar1.increment();
+    //   continue;
+    // }
 
-    // const res = await db.collection("locations_test").add(location);
-    const reviewLength = locationToSimpleReviews(location.legacyId).length;
-    //Create Location
-    //Get review count
-    //Create reviews with correct avg
-
+    const res = await db.collection("locations_test").add({
+      ...location,
+      position: {
+        geohash: location.position.geohash,
+        geopoint: new firebase.firestore.GeoPoint(
+          location.position.geopoint.latitude,
+          location.position.geopoint.longitude
+        ),
+      },
+    });
     const reviews: Review[] = locationToReviews(
       location.legacyId,
-      "1",
-      location.rating / reviewLength
+      res.id,
+      location.rating / location.reviewCount
     );
-    console.log(reviews);
+    for (let i = 0; i < reviews.length; i++) {
+      const review = reviews[i];
+      await db.collection("reviews_test").add(review);
+    }
 
     bar1.increment();
   }

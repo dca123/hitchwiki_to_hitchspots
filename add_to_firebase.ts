@@ -24,7 +24,6 @@ async function main() {
   bar1.start(end, start);
   for (let index = start; index < end; index++) {
     const location: Location = locations[index];
-    // console.log(reviews);
     const locationSnapshot = await db
       .collection("locations")
       .where("legacyId", "==", location.legacyId)
@@ -46,14 +45,8 @@ async function main() {
         ),
       },
     });
-    const rating = parseFloat(
-      (location.rating / location.reviewCount).toFixed(1)
-    );
-    const reviews: Review[] = locationToReviews(
-      location.legacyId,
-      res.id,
-      rating
-    );
+    const reviews: Review[] = locationToReviews(location.legacyId, res.id);
+    // const reviews: Review[] = locationToReviews(location.legacyId, "1");
     for (let i = 0; i < reviews.length; i++) {
       const review = reviews[i];
       await db.collection("reviews").add(review);

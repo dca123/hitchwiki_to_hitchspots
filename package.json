@@ -9,6 +9,7 @@
     "ngeohash": "^0.6.3"
   },
   "devDependencies": {
+    "@types/cli-progress": "^3.9.2",
     "@types/jsonfile": "^6.0.1",
     "@types/latlon-geohash": "^2.0.0",
     "@types/ngeohash": "^0.6.4",

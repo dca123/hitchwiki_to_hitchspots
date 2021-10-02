@@ -27,11 +27,13 @@ const generateLocationIDsJSON = async () => {
 };
 
 const triggerFunction = async () => {
-  const locationIDsCollection = jsonfile.readFileSync(
+  const locationIDsCollection: [] = jsonfile.readFileSync(
     "exports/locationIDs.json"
   ).data;
-  const start = 0,
-    end = 500;
+  //2464
+  //5031
+  const start = 20000,
+    end = locationIDsCollection.length;
   bar1.start(end, start);
   for (let index = start; index < end; index++) {
     const locationID = locationIDsCollection[index];

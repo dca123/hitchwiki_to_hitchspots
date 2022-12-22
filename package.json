@@ -3,7 +3,7 @@
     "@googlemaps/google-maps-services-js": "^3.1.16",
     "cli-progress": "^3.9.0",
     "firebase": "^8.9.1",
-    "firebase-admin": "^9.11.0",
+    "firebase-admin": "^11.4.1",
     "jsonfile": "^6.1.0",
     "latlon-geohash": "^2.0.0",
     "ngeohash": "^0.6.3"
